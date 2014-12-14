@@ -25,17 +25,26 @@
                 this.setProps({val:newVal})
             },
             componentWillMount:function() {
-                console.log("componentWillMount")
+                this.setState({m:2});
+                if(this.props.val === 0){
+                    this.btnStyle = {'color':'red'}
+                }
             },
             componentDidMount:function() {
                 console.log("componentDidMount")
+                console.log(this.getDOMNode())
+                this.inc = setInterval(this.update, 500)
+
             },
             componentWillUnmount:function(){
                 console.log("componentWillUnmount")
+                clearInterval(this.inc)
             },
             render:function(){
                 console.log("hello world")
-                return <button onClick={this.update}>{this.props.val}</button>
+                return <button
+                        style={this.btnStyle}
+                        onClick={this.update}>{this.props.val}</button>
             }
         })
 
