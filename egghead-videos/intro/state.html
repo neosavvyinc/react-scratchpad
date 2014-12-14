@@ -10,27 +10,23 @@
 <script type="text/jsx">
     /*** @jsx React.dom */
     var APP = React.createClass({
-        getDefaultProps:function(){
-            return {
-                txt: '',
-                cat: 0
-            }
+        getInitialState:function(){
+          return {txt: 'this is my state txt'}
         },
-        propTypes: {
-            txt: React.PropTypes.string,
-            cat: React.PropTypes.number.isRequired
+        updateTxt:function(e) {
+            this.setState({txt: e.target.value })
         },
         render:function(){
             return (
                 <div>
-                    <h1>{this.props.txt}</h1>
-                    <b>bold {this.props.cat}</b>
+                    <input type="text" onChange={this.updateTxt}/>
+                    <h1>{this.state.txt}</h1>
                 </div>
             )
         }
     })
 
-    React.renderComponent(<APP txt="this is the txt prop" cat={5}/>, document.body)
+    React.renderComponent(<APP />, document.body)
 </script>
 
 <body></body>
