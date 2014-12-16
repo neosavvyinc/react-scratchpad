@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"/>
+    <script src="http://fb.me/react-0.12.1.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
+    <style>
+        body{margin: 100px;}
+    </style>
+</head>
+<body>
+    <script type="text/jsx">
+        /*** @jsx React.DOM */
+        var APP = React.createClass({
+            render:function(){
+                return (
+                    <div class="container">
+                        <DependentButtons></DependentButtons>
+                        <DependentInputs></DependentInputs>
+                    </div>
+                )
+            }
+        })
+
+        var DependentInputs = React.createClass({
+            getInitialState:function(){
+                return { showChildInput : false };
+            },
+            onBlur: function(){
+                console.log('Blurring the parent button');
+                if( this.state.showChildInput )
+                    this.setState({ showChildInput: false });
+                else
+                    this.setState({ showChildInput: true });
+            },
+            render: function(){
+                return <div class="row">
+                    <ParentInput onBlur={this.onBlur}/>
+                    { this.state.showChildInput ? <ChildButton/> : null }
+                </div>
+            }
+        })
+
+        var ParentInput = React.createClass({
+            render: function() {
+                return <div class="col-md-6"><input {...this.props}
+                        type="text"
+                        class="form-control"/></div>
+            }
+        })
+
+        var DependentButtons = React.createClass({
+            getInitialState:function(){
+                return { showChildButton : false };
+            },
+            onClick: function(){
+                console.log('Clicking the parent button');
+                if( this.state.showChildButton )
+                    this.setState({ showChildButton: false });
+                else
+                    this.setState({ showChildButton: true });
+            },
+            render: function(){
+                return <div class="row">
+                    <ParentButton onClick={this.onClick}></ParentButton>
+                    { this.state.showChildButton ? <ChildButton></ChildButton> : null }
+                </div>
+            }
+        })
+
+        var ParentButton = React.createClass({
+            render:function(){
+                return (
+                    <div class="col-md-6"><button {...this.props}  className="btn btn-lg">Parent Button</button></div>
+                )
+            }
+        })
+
+        var ChildButton = React.createClass({
+            render:function(){
+                return (
+                    <div class="col-md-6"><button className="btn btn-lg">Child Button</button></div>
+                )
+            }
+        })
+
+        React.render( <APP />, document.body)
+    </script>
+</body>
+</html>
